@@ -9,9 +9,9 @@
 把 `src/Module/Tools/HttpImageTool.php` 拷贝进框架对应的文件夹里即可。
 
 ### 配置
-此模块默认的图片文件夹是 `zm_data/images/`，如果有需要可自行修改其他目录（`innerImage()` 方法）。
+此模块默认的图片文件夹是 `zm_data/images/`，如果有需要可自行修改 `FILE_PATH` 常量。
 
-同时请求 url 为 `/images/{文件名}`，可根据需要修改其他的。
+同时请求 url 为 `/images/{文件名}`，可根据需要修改 `@RequestMapping`。
 
 更改 `config/global.php` 配置文件里面的 `http_reverse_link`，就是改成外部（酷Q）可以访问你的框架的地址。
 
@@ -22,6 +22,6 @@
  * @CQCommand("图片")
  */
 public function image() {
-    return CQ::image(DataProvider::getFrameworkLink()."/images/a.jpg");
+    return CQ::image(DataProvider::getFrameworkLink() . "/images/a.jpg");
 }
 ```
