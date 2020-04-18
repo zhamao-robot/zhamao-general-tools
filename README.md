@@ -2,7 +2,7 @@
 
 这里为一些可能是你非常需要的基础模块。
 
-## 图片上传
+## 图片上传和下载
 如果你使用的是 **酷Q Pro**，想通过炸毛框架来发送图片，则安装此模块后可以上传发送图片。
 
 ### 安装步骤
@@ -23,5 +23,18 @@
  */
 public function image() {
     return CQ::image(DataProvider::getFrameworkLink() . "/images/a.jpg");
+}
+```
+
+### 下载消息中 CQ 码的图片
+此方法会将消息内的前 4 张图片下载到 `FILE_PATH` 目录下，返回的是文件名数组。
+```php
+/**
+ * @CQMessage()
+ */
+public function downloadImage() {
+    $msg = $this->getMessage();
+    $downloaded = HttpImageTool::downloadImageFromCQ($msg);
+    return "已下载 " . count($downloaded) . " 张图片\n" . implode("\n", $downloaded);
 }
 ```
