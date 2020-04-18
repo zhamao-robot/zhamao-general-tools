@@ -22,6 +22,7 @@
  * @CQCommand("图片")
  */
 public function image() {
+    // 这里相当于返回的是："[CQ:image,file=http://你的框架地址:端口/images/a.jpg]"
     return CQ::image(DataProvider::getFrameworkLink() . "/images/a.jpg");
 }
 ```
