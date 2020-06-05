@@ -7,16 +7,15 @@ namespace Module\Manager;
 use Co;
 use Framework\ZMBuf;
 use ZM\Annotation\Http\RequestMapping;
-use ZM\Annotation\Swoole\SwooleEventAfter;
-use ZM\ModBase;
+use ZM\Annotation\Swoole\OnStart;
 use ZM\Utils\ZMRequest;
 use ZM\Utils\ZMUtil;
 
-class HttpImageTool extends ModBase
+class HttpImageTool
 {
     const FILE_PATH = ZM_DATA . "images/";
     /**
-     * @SwooleEventAfter("workerStart")
+     * @OnStart()
      */
     public function onWorkerStart(){
         @mkdir(self::FILE_PATH);
@@ -30,14 +29,14 @@ class HttpImageTool extends ModBase
         $param_name = $param["file_name"];
         $param_name = strtolower($param_name);
         if (mb_strpos($param_name, "..") !== false) {
-            $this->response->status(404);
-            $this->response->end();
+            ctx()->getResponse()->status(404);
+            ctx()->getResponse()->end();
             return;
         }
         $exp = explode(".", $param_name);
         if (($type = array_pop($exp)))
-            $this->response->header("Content-Type", ZMBuf::config("file_header")[$type] ?? "text/html");
-        $this->response->end(Co::readFile($filename.$param_name));
+            ctx()->getResponse()->header("Content-Type", ZMBuf::config("file_header")[$type] ?? "text/html");
+        ctx()->getResponse()->end(Co::readFile($filename.$param_name));
     }
 
     public static function downloadImageFromCQ(&$msg) {
